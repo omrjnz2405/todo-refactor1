@@ -64,3 +64,4 @@ Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien 
 | 2. crearTarea + primera prueba | Omar | Natalia |
 | 3. agregarTarea sin acoplarse al DOM | Natalia | Omar |
 | 4. buscarTarea | Omar | Natalia |
+| 5. filter: seleccionar subconjuntos | Natalia | Omar |

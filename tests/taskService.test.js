@@ -100,7 +100,43 @@ describe("buscarTarea", () => {
     expect(resultado).toBeUndefined();
   });
 });
+describe("obtenerPendientes / obtenerTerminadas", () => {
+  const mixta = [
+    { id: 1, titulo: "A", completada: false },
+    { id: 2, titulo: "B", completada: true },
+    { id: 3, titulo: "C", completada: false }
+  ];
 
+  it("colección mixta: separa pendientes y terminadas", () => {
+    // Arrange y Act
+    const pendientes = obtenerPendientes(mixta);
+    const terminadas = obtenerTerminadas(mixta);
+
+    // Assert
+    expect(pendientes.map(t => t.id)).toEqual([1, 3]);
+    expect(terminadas.map(t => t.id)).toEqual([2]);
+  });
+
+  it("sin coincidencias devuelve un array vacío, no undefined", () => {
+    const todasTerminadas = [{ id: 1, titulo: "A", completada: true }];
+
+    expect(obtenerPendientes(todasTerminadas)).toEqual([]);
+  });
+
+  it("colección vacía devuelve un array vacío", () => {
+    expect(obtenerPendientes([])).toEqual([]);
+    expect(obtenerTerminadas([])).toEqual([]);
+  });
+
+  it("no altera la colección original", () => {
+    const copia = structuredClone(mixta);
+
+    obtenerPendientes(mixta);
+    obtenerTerminadas(mixta);
+
+    expect(mixta).toEqual(copia);
+  });
+});
 // MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
 // MISIÓN 4: prueba id existente e inexistente para buscarTarea().
 // MISIÓN 5: prueba colección mixta, sin coincidencias y vacía.
@@ -110,8 +146,6 @@ describe("buscarTarea", () => {
 
 // Los imports anteriores quedan preparados para que construyas la suite de forma incremental.
 void buscarTarea;
-void obtenerPendientes;
-void obtenerTerminadas;
 void cambiarEstado;
 void eliminarTarea;
 void obtenerResumen;
