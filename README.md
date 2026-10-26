@@ -76,6 +76,7 @@ Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien 
 | 7. Eliminar y probar casos frontera | Natalia | Omar |
 | 8. implementar obtenerResumen con composicion | Omar | Natalia |
 | 9. Integrar con la interfaz | Natalia | Omar |
+| 11. Nuevo requerimiento: buscar por texto | Natalia | Omar |
 
 
 ## Reflexión final de pareja
