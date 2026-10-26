@@ -29,7 +29,7 @@ La primera prueba está preparada para fallar: es el punto de partida de la **Mi
 Responde aquí:
 
 1. ¿Dónde almacenarías ahora el estado `completada` de una tarea?
-Con el modelo actual no existe un lugar natural: un string solo guarda texto. Tendríamos que usar un arreglo paralelo (completadas[i]) o marcar el texto (por ejemplo, anteponer "✔"), y ambas opciones son frágiles. El estado debe ser una propiedad de la propia tarea, por lo que la tarea debe convertirse en un objeto: { id, titulo, completada }
+Con el modelo actual no existe un lugar natural: un string solo guarda texto. Tendríamos que usar un arreglo paralelo (completadas[i]) o marcar el texto, y ambas opciones son frágiles. El estado debe ser una propiedad de la propia tarea, por lo que la tarea debe convertirse en un objeto: { id, titulo, completada }
 2. ¿Qué ocurriría si mañana cada tarea necesita prioridad, fecha o responsable?
 Habría que mantener un arreglo paralelo por cada atributo (prioridades[], fechas[], responsables[]), sincronizados por índice. Al eliminar o reordenar una tarea es fácil que se desalineen y se asigne un dato a la tarea equivocada. Con objetos solo se agrega una propiedad (prioridad: "alta") y el resto de las funciones no necesita enterarse.
 3. ¿Qué parte del código representa datos y qué parte representa interfaz?
@@ -74,3 +74,4 @@ Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien 
 | 5. filter: seleccionar subconjuntos | Natalia | Omar |
 | 6. cambiar estado | Omar | Natalia |
 | 7. Eliminar y probar casos frontera | Natalia | Omar |
+| 8. implementar obtenerResumen con composicion | Omar | Natalia |
