@@ -137,6 +137,56 @@ describe("obtenerPendientes / obtenerTerminadas", () => {
     expect(mixta).toEqual(copia);
   });
 });
+
+describe("cambiarEstado", () => {
+  it("alterna el estado 'completada' de la tarea indicada", () => {
+    
+    const tareas = [
+      { id: 1, titulo: "Tarea 1", completada: false },
+      { id: 2, titulo: "Tarea 2", completada: false }
+    ];
+
+    
+    const resultado = cambiarEstado(tareas, 1);
+
+  
+    expect(resultado[0].completada).toBe(true);
+  });
+
+  it("no altera el estado ni datos de las otras tareas", () => {
+  
+    const tareas = [
+      { id: 1, titulo: "Tarea 1", completada: false },
+      { id: 2, titulo: "Tarea 2", completada: false }
+    ];
+
+   
+    const resultado = cambiarEstado(tareas, 1);
+
+   
+    expect(resultado[1]).toEqual({ id: 2, titulo: "Tarea 2", completada: false });
+  });
+
+  it("conserva la colección intacta si el id no existe", () => {
+   
+    const tareas = [{ id: 1, titulo: "Tarea 1", completada: false }];
+
+  
+    const resultado = cambiarEstado(tareas, 999);
+
+    expect(resultado).toEqual(tareas);
+  });
+
+  it("no muta el objeto original", () => {
+   
+    const original = { id: 1, titulo: "Tarea 1", completada: false };
+
+   
+    cambiarEstado([original], 1);
+
+    expect(original.completada).toBe(false);
+  });
+});
 // MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
 // MISIÓN 4: prueba id existente e inexistente para buscarTarea().
 // MISIÓN 5: prueba colección mixta, sin coincidencias y vacía.

@@ -49,9 +49,16 @@ El orden de las tareas se respeta: la primera aparece primero.
 
 Documenta al menos una iteración:
 
-- **RED:** ¿qué prueba escribiste y por qué falló?
-- **GREEN:** ¿cuál fue el cambio mínimo que la hizo pasar?
-- **REFACTOR:** ¿qué mejoraste sin cambiar el comportamiento?
+### Iteración documentada: Misión 6 (`cambiarEstado`)
+
+* **RED: ¿qué prueba escribiste y por qué falló?**  
+  Escribimos tres pruebas unitarias en `tests/taskService.test.js` bajo el patrón Arrange-Act-Assert: una para alternar el valor booleano de `completada` de una tarea específica, otra para asegurar que no se alteraran las demás tareas de la colección, y una tercera para verificar que un `id` inexistente devolviera la lista intacta[cite: 8, 10]. La suite falló en Vitest (`3 failed`) porque la función `cambiarEstado` aún no estaba implementada en el módulo de dominio y devolvía un error de stub pendiente[cite: 9, 10].
+
+* **GREEN: ¿cuál fue el cambio mínimo que la hizo pasar?**  
+  En `src/taskService.js`, implementamos `cambiarEstado(tareas, id)` utilizando el método inmutable `.map()` junto con un operador ternario y el operador spread (`{ ...tarea, completada: !tarea.completada }`)[cite: 10]. Esto genera y retorna una nueva colección donde solo el elemento coincidente actualiza su estado, pasando inmediatamente las 3 pruebas a verde (`passed`)[cite: 9, 10].
+
+* **REFACTOR: ¿qué mejoraste sin cambiar el comportamiento?**  
+  Se verificó la inmutabilidad estricta para evitar efectos secundarios sobre el arreglo original recibido[cite: 8, 10]. Además, se limpió la estructura sintáctica de la función flecha dentro de `.map()` para maximizar su legibilidad declarativa, asegurando que los nombres de los parámetros expresen con claridad la intención del dominio antes de integrarla con la interfaz[cite: 8, 10].
 
 ## Pair Programming
 
@@ -65,3 +72,4 @@ Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien 
 | 3. agregarTarea sin acoplarse al DOM | Natalia | Omar |
 | 4. buscarTarea | Omar | Natalia |
 | 5. filter: seleccionar subconjuntos | Natalia | Omar |
+| 6. cambiar estado | Omar | Natalia |
