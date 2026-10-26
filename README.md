@@ -75,3 +75,4 @@ Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien 
 | 6. cambiar estado | Omar | Natalia |
 | 7. Eliminar y probar casos frontera | Natalia | Omar |
 | 8. implementar obtenerResumen con composicion | Omar | Natalia |
+| 9. Integrar con la interfaz | Natalia | Omar |
