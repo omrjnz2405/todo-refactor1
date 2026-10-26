@@ -21,3 +21,4 @@ button { padding:10px 14px; border:0; border-radius:10px; cursor:pointer; font-w
 .task-actions button { background:#edf2f7; }
 .message { min-height:1.25em; margin:8px 0 0; }
 .summary { margin:18px 0 0; font-weight:700; }
+.task-main { display:flex; align-items:center; gap:10px; }
