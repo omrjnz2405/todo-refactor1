@@ -1,5 +1,5 @@
 /*
- * MISIÓN 9 · ADAPTADOR DE INTERFAZ
+ * MISIÓN 10 · ADAPTADOR DE INTERFAZ (REFACTORIZADO)
  *
  * El DOM ya no contiene reglas de negocio. Sólo lee eventos, delega en
  * taskService.js y renderiza el resultado:
@@ -11,9 +11,9 @@ import {
   agregarTarea,
   cambiarEstado,
   eliminarTarea,
-  obtenerPendientes,
-  obtenerTerminadas,
-  obtenerResumen
+  obtenerResumen,
+  filtrarTareas,
+  siguienteId
 } from "./taskService.js";
 
 const form = document.querySelector("#task-form");
@@ -31,19 +31,44 @@ let tareas = [
 let filtro = "todas";
 
 function render() {
-  let visibles = tareas;
-  if (filtro === "pendientes") visibles = obtenerPendientes(tareas);
-  if (filtro === "terminadas") visibles = obtenerTerminadas(tareas);
+  // 1. Delegar la regla de filtrado a taskService.js
+  const visibles = filtrarTareas(tareas, filtro);
 
   list.innerHTML = "";
+
+  // 3. Renderizado seguro con createElement y textContent (soluciona inyección de HTML en títulos)
   visibles.forEach(tarea => {
     const li = document.createElement("li");
     li.className = tarea.completada ? "task done" : "task";
-    li.innerHTML = `<span class="task-main">
-        <input type="checkbox" data-toggle="${tarea.id}" ${tarea.completada ? "checked" : ""}>
-        <span class="title">${tarea.titulo}</span>
-      </span>
-      <span class="task-actions"><button data-delete="${tarea.id}">Eliminar</button></span>`;
+
+    // Contenedor principal de la tarea
+    const spanMain = document.createElement("span");
+    spanMain.className = "task-main";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.dataset.toggle = tarea.id;
+    checkbox.checked = tarea.completada;
+
+    const spanTitle = document.createElement("span");
+    spanTitle.className = "title";
+    spanTitle.textContent = tarea.titulo; // Seguro: no interpreta etiquetas HTML como <b>
+
+    spanMain.appendChild(checkbox);
+    spanMain.appendChild(spanTitle);
+
+    // Acciones de la tarea
+    const spanActions = document.createElement("span");
+    spanActions.className = "task-actions";
+
+    const btnDelete = document.createElement("button");
+    btnDelete.dataset.delete = tarea.id;
+    btnDelete.textContent = "Eliminar";
+
+    spanActions.appendChild(btnDelete);
+
+    li.appendChild(spanMain);
+    li.appendChild(spanActions);
     list.appendChild(li);
   });
 
@@ -58,7 +83,9 @@ form.addEventListener("submit", (event) => {
     message.textContent = "Escribe un título antes de agregar.";
     return;
   }
-  const id = tareas.length ? Math.max(...tareas.map(t => t.id)) + 1 : 1;
+
+  // 2. Delegar la generación de identificador a taskService.js
+  const id = siguienteId(tareas);
   tareas = agregarTarea(tareas, crearTarea(id, titulo));
   input.value = "";
   message.textContent = "";

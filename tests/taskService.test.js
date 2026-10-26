@@ -7,9 +7,10 @@ import {
   obtenerTerminadas,
   cambiarEstado,
   eliminarTarea,
-  obtenerResumen
+  obtenerResumen,
+  filtrarTareas,
+  siguienteId
 } from "../src/taskService.js";
-
 
 /*
  * TODO REFACTOR LAB · SUITE STARTER
@@ -31,9 +32,11 @@ describe("crearTarea", () => {
     expect(tarea).toEqual({ 
       id: 10, 
       titulo: "Diseñar pruebas", 
-      completada: false });
+      completada: false 
+    });
   });
 });
+
 describe("agregarTarea", () => {
   it("devuelve una colección que incluye la nueva tarea al final", () => {
     // Arrange
@@ -70,20 +73,16 @@ describe("agregarTarea", () => {
   });
 });
 
-
 describe("buscarTarea", () => {
   it("encuentra y retorna la tarea cuando el id existe", () => {
-   
     const tareas = [
       { id: 1, titulo: "Revisar requisitos", completada: false },
       { id: 2, titulo: "Diseñar pruebas", completada: true }
     ];
     const idBuscado = 2;
 
-    
     const resultado = buscarTarea(tareas, idBuscado);
 
-   
     expect(resultado).toEqual({
       id: 2,
       titulo: "Diseñar pruebas",
@@ -92,7 +91,6 @@ describe("buscarTarea", () => {
   });
 
   it("retorna undefined cuando el id no existe en la colección", () => {
-    
     const tareas = [{ id: 1, titulo: "Revisar requisitos", completada: false }];
 
     const resultado = buscarTarea(tareas, 99);
@@ -100,6 +98,7 @@ describe("buscarTarea", () => {
     expect(resultado).toBeUndefined();
   });
 });
+
 describe("obtenerPendientes / obtenerTerminadas", () => {
   const mixta = [
     { id: 1, titulo: "A", completada: false },
@@ -140,53 +139,44 @@ describe("obtenerPendientes / obtenerTerminadas", () => {
 
 describe("cambiarEstado", () => {
   it("alterna el estado 'completada' de la tarea indicada", () => {
-    
     const tareas = [
       { id: 1, titulo: "Tarea 1", completada: false },
       { id: 2, titulo: "Tarea 2", completada: false }
     ];
 
-    
     const resultado = cambiarEstado(tareas, 1);
 
-  
     expect(resultado[0].completada).toBe(true);
   });
 
   it("no altera el estado ni datos de las otras tareas", () => {
-  
     const tareas = [
       { id: 1, titulo: "Tarea 1", completada: false },
       { id: 2, titulo: "Tarea 2", completada: false }
     ];
 
-   
     const resultado = cambiarEstado(tareas, 1);
 
-   
     expect(resultado[1]).toEqual({ id: 2, titulo: "Tarea 2", completada: false });
   });
 
   it("conserva la colección intacta si el id no existe", () => {
-   
     const tareas = [{ id: 1, titulo: "Tarea 1", completada: false }];
 
-  
     const resultado = cambiarEstado(tareas, 999);
 
     expect(resultado).toEqual(tareas);
   });
 
   it("no muta el objeto original", () => {
-   
     const original = { id: 1, titulo: "Tarea 1", completada: false };
 
-   
     cambiarEstado([original], 1);
 
     expect(original.completada).toBe(false);
   });
 });
+
 describe("eliminarTarea", () => {
   it("elimina la tarea con un id existente y conserva el orden", () => {
     // Arrange
@@ -217,7 +207,6 @@ describe("eliminarTarea", () => {
     expect(tareas).toHaveLength(1);
   });
 });
-
 
 describe("obtenerResumen", () => {
   it("calcula correctamente el total, pendientes y terminadas en una lista mixta", () => {
@@ -256,7 +245,7 @@ describe("obtenerResumen", () => {
 
     const resumen = obtenerResumen(tareas);
 
-      expect(resumen).toEqual({
+    expect(resumen).toEqual({
       total: 2,
       pendientes: 0,
       terminadas: 2
@@ -264,5 +253,45 @@ describe("obtenerResumen", () => {
   });
 });
 
+describe("Misión 10 (Refactor) - filtrarTareas", () => {
+  const tareas = [
+    { id: 1, titulo: "Tarea 1", completada: false },
+    { id: 2, titulo: "Tarea 2", completada: true },
+    { id: 3, titulo: "Tarea 3", completada: false }
+  ];
 
+  it("retorna todas las tareas cuando el filtro es 'todas'", () => {
+    expect(filtrarTareas(tareas, "todas")).toEqual(tareas);
+  });
 
+  it("retorna únicamente las tareas pendientes cuando el filtro es 'pendientes'", () => {
+    const res = filtrarTareas(tareas, "pendientes");
+    expect(res).toHaveLength(2);
+    expect(res.every(t => !t.completada)).toBe(true);
+  });
+
+  it("retorna únicamente las tareas terminadas cuando el filtro es 'terminadas'", () => {
+    const res = filtrarTareas(tareas, "terminadas");
+    expect(res).toHaveLength(1);
+    expect(res[0].id).toBe(2);
+  });
+
+  it("retorna la colección completa ante un filtro desconocido", () => {
+    expect(filtrarTareas(tareas, "filtro_invalido")).toEqual(tareas);
+  });
+});
+
+describe("Misión 10 (Refactor) - siguienteId", () => {
+  it("retorna 1 cuando la colección está vacía (caso frontera)", () => {
+    expect(siguienteId([])).toBe(1);
+  });
+
+  it("calcula el id siguiente basándose en el id máximo existente", () => {
+    const tareas = [
+      { id: 1, titulo: "T1", completada: false },
+      { id: 7, titulo: "T7", completada: true },
+      { id: 3, titulo: "T3", completada: false }
+    ];
+    expect(siguienteId(tareas)).toBe(8);
+  });
+});
