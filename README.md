@@ -57,7 +57,8 @@ Documenta al menos una iteración:
 
 Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien roles con frecuencia y no hagan commit hasta que ambos puedan explicar el código y la prueba.
 
-| Misión | Driver | Navigator |
+| Misión | Driver | Navigator | 
 |---|---|---|
-| 0 · Comprender antes de cambiar | Omar | Natalia |
-| 1 · Cambiar el modelo: de string a objeto | Natalia | Omar |
+| 0. Comprender antes de cambiar | Omar | Natalia |
+| 1. Cambiar el modelo | Natalia | Omar | 
+| 2. crearTarea + primera prueba | Omar | Natalia |

@@ -10,6 +10,7 @@ import {
   obtenerResumen
 } from "../src/taskService.js";
 
+
 /*
  * TODO REFACTOR LAB · SUITE STARTER
  *
@@ -27,9 +28,14 @@ describe("crearTarea", () => {
     const tarea = crearTarea(id, titulo);
 
     // Assert
-    expect(tarea).toEqual({ id: 10, titulo: "Diseñar pruebas", completada: false });
+    expect(tarea).toEqual({ 
+      id: 10, 
+      titulo: "Diseñar pruebas", 
+      completada: false });
   });
 });
+
+
 
 // MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
 // MISIÓN 4: prueba id existente e inexistente para buscarTarea().
@@ -46,3 +52,5 @@ void obtenerTerminadas;
 void cambiarEstado;
 void eliminarTarea;
 void obtenerResumen;
+
+
