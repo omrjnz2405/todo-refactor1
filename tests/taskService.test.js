@@ -217,6 +217,52 @@ describe("eliminarTarea", () => {
     expect(tareas).toHaveLength(1);
   });
 });
+
+
+describe("obtenerResumen", () => {
+  it("calcula correctamente el total, pendientes y terminadas en una lista mixta", () => {
+    const tareas = [
+      { id: 1, titulo: "Tarea 1", completada: false },
+      { id: 2, titulo: "Tarea 2", completada: true },
+      { id: 3, titulo: "Tarea 3", completada: false }
+    ];
+
+    const resumen = obtenerResumen(tareas);
+
+    expect(resumen).toEqual({
+      total: 3,
+      pendientes: 2,
+      terminadas: 1
+    });
+  });
+
+  it("maneja una lista vacía retornando ceros (caso frontera)", () => {
+    const tareas = [];
+
+    const resumen = obtenerResumen(tareas);
+
+    expect(resumen).toEqual({
+      total: 0,
+      pendientes: 0,
+      terminadas: 0
+    });
+  });
+
+  it("calcula adecuadamente cuando todas las tareas están terminadas", () => {
+    const tareas = [
+      { id: 1, titulo: "Tarea 1", completada: true },
+      { id: 2, titulo: "Tarea 2", completada: true }
+    ];
+
+    const resumen = obtenerResumen(tareas);
+
+      expect(resumen).toEqual({
+      total: 2,
+      pendientes: 0,
+      terminadas: 2
+    });
+  });
+});
 // MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
 // MISIÓN 4: prueba id existente e inexistente para buscarTarea().
 // MISIÓN 5: prueba colección mixta, sin coincidencias y vacía.
