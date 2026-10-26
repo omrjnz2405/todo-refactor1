@@ -176,6 +176,16 @@ describe("cambiarEstado", () => {
 
     expect(resultado).toEqual(tareas);
   });
+
+  it("no muta el objeto original", () => {
+   
+    const original = { id: 1, titulo: "Tarea 1", completada: false };
+
+   
+    cambiarEstado([original], 1);
+
+    expect(original.completada).toBe(false);
+  });
 });
 // MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
 // MISIÓN 4: prueba id existente e inexistente para buscarTarea().
