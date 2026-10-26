@@ -1,5 +1,5 @@
 /*
- * MISIÓN 10 · ADAPTADOR DE INTERFAZ (REFACTORIZADO)
+ * MISIÓN 11 · ADAPTADOR DE INTERFAZ CON BÚSQUEDA
  *
  * El DOM ya no contiene reglas de negocio. Sólo lee eventos, delega en
  * taskService.js y renderiza el resultado:
@@ -13,7 +13,8 @@ import {
   eliminarTarea,
   obtenerResumen,
   filtrarTareas,
-  siguienteId
+  siguienteId,
+  buscarPorTexto
 } from "./taskService.js";
 
 const form = document.querySelector("#task-form");
@@ -21,6 +22,7 @@ const input = document.querySelector("#task-input");
 const list = document.querySelector("#task-list");
 const message = document.querySelector("#message");
 const summary = document.querySelector("#summary");
+const search = document.querySelector("#search-input");
 const filters = [...document.querySelectorAll("[data-filter]")];
 
 let tareas = [
@@ -29,14 +31,15 @@ let tareas = [
   crearTarea(3, "Refactorizar código")
 ];
 let filtro = "todas";
+let busqueda = "";
 
 function render() {
-  // 1. Delegar la regla de filtrado a taskService.js
-  const visibles = filtrarTareas(tareas, filtro);
+  // Las dos reglas se componen: primero filtra por estado, luego por texto
+  const visibles = buscarPorTexto(filtrarTareas(tareas, filtro), busqueda);
 
   list.innerHTML = "";
 
-  // 3. Renderizado seguro con createElement y textContent (soluciona inyección de HTML en títulos)
+  // Renderizado seguro con createElement y textContent (soluciona inyección de HTML en títulos)
   visibles.forEach(tarea => {
     const li = document.createElement("li");
     li.className = tarea.completada ? "task done" : "task";
@@ -84,7 +87,7 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  // 2. Delegar la generación de identificador a taskService.js
+  // Delegar la generación de identificador a taskService.js
   const id = siguienteId(tareas);
   tareas = agregarTarea(tareas, crearTarea(id, titulo));
   input.value = "";
@@ -106,5 +109,10 @@ filters.forEach(button => button.addEventListener("click", () => {
   message.textContent = "";
   render();
 }));
+
+search.addEventListener("input", () => {
+  busqueda = search.value;
+  render();
+});
 
 render();
