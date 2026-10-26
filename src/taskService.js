@@ -73,3 +73,9 @@ export function siguienteId(tareas) {
   }
   return Math.max(...tareas.map(t => t.id)) + 1;
 }
+
+// MISIÓN 11 · EXTENSIÓN B
+export function buscarPorTexto(tareas, texto) {
+  const buscado = texto.trim().toLowerCase();
+  return tareas.filter(t => t.titulo.toLowerCase().includes(buscado));
+}
