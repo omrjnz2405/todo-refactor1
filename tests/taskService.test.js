@@ -71,6 +71,36 @@ describe("agregarTarea", () => {
 });
 
 
+describe("buscarTarea", () => {
+  it("encuentra y retorna la tarea cuando el id existe", () => {
+   
+    const tareas = [
+      { id: 1, titulo: "Revisar requisitos", completada: false },
+      { id: 2, titulo: "Diseñar pruebas", completada: true }
+    ];
+    const idBuscado = 2;
+
+    
+    const resultado = buscarTarea(tareas, idBuscado);
+
+   
+    expect(resultado).toEqual({
+      id: 2,
+      titulo: "Diseñar pruebas",
+      completada: true
+    });
+  });
+
+  it("retorna undefined cuando el id no existe en la colección", () => {
+    
+    const tareas = [{ id: 1, titulo: "Revisar requisitos", completada: false }];
+
+    const resultado = buscarTarea(tareas, 99);
+
+    expect(resultado).toBeUndefined();
+  });
+});
+
 // MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
 // MISIÓN 4: prueba id existente e inexistente para buscarTarea().
 // MISIÓN 5: prueba colección mixta, sin coincidencias y vacía.
