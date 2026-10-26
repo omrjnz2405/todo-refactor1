@@ -9,46 +9,50 @@
 // MISIÓN 2
 export function crearTarea(id, titulo) {
   // TODO: devolver { id, titulo, completada: false }
-  throw new Error("Misión 2 pendiente: implementar crearTarea()");
+  return { id, titulo, completada: false };
 }
 
 // MISIÓN 3
 export function agregarTarea(tareas, nuevaTarea) {
-  // TODO: devolver una NUEVA colección que incluya nuevaTarea.
-  throw new Error("Misión 3 pendiente: implementar agregarTarea()");
+   return [...tareas, nuevaTarea];
 }
 
 // MISIÓN 4
 export function buscarTarea(tareas, id) {
-  // TODO: usar find(). Un id inexistente debe producir undefined.
-  throw new Error("Misión 4 pendiente: implementar buscarTarea()");
+  return tareas.find(t => t.id === id);
 }
 
 // MISIÓN 5
 export function obtenerPendientes(tareas) {
-  // TODO: usar filter().
-  throw new Error("Misión 5 pendiente: implementar obtenerPendientes()");
+  return tareas.filter(t => !t.completada);
 }
 
 export function obtenerTerminadas(tareas) {
-  // TODO: usar filter().
-  throw new Error("Misión 5 pendiente: implementar obtenerTerminadas()");
+  return tareas.filter(t => t.completada);
 }
 
 // MISIÓN 6
 export function cambiarEstado(tareas, id) {
-  // TODO: usar map() + spread. No mutar el objeto original.
-  throw new Error("Misión 6 pendiente: implementar cambiarEstado()");
+  return tareas.map(tarea =>
+    tarea.id === id
+      ? { ...tarea, completada: !tarea.completada }
+      : tarea
+  );
 }
 
 // MISIÓN 7
 export function eliminarTarea(tareas, id) {
-  // TODO: conservar todos excepto el id indicado.
-  throw new Error("Misión 7 pendiente: implementar eliminarTarea()");
+  return tareas.filter(t => t.id !== id);
 }
 
 // MISIÓN 8
 export function obtenerResumen(tareas) {
-  // TODO: devolver { total, pendientes, terminadas }.
-  throw new Error("Misión 8 pendiente: implementar obtenerResumen()");
+  const pendientes = obtenerPendientes(tareas).length;
+  const terminadas = obtenerTerminadas(tareas).length;
+
+  return {
+    total: tareas.length,
+    pendientes,
+    terminadas
+  }
 }

@@ -29,7 +29,7 @@ La primera prueba está preparada para fallar: es el punto de partida de la **Mi
 Responde aquí:
 
 1. ¿Dónde almacenarías ahora el estado `completada` de una tarea?
-Con el modelo actual no existe un lugar natural: un string solo guarda texto. Tendríamos que usar un arreglo paralelo (completadas[i]) o marcar el texto (por ejemplo, anteponer "✔"), y ambas opciones son frágiles. El estado debe ser una propiedad de la propia tarea, por lo que la tarea debe convertirse en un objeto: { id, titulo, completada }
+Con el modelo actual no existe un lugar natural: un string solo guarda texto. Tendríamos que usar un arreglo paralelo (completadas[i]) o marcar el texto, y ambas opciones son frágiles. El estado debe ser una propiedad de la propia tarea, por lo que la tarea debe convertirse en un objeto: { id, titulo, completada }
 2. ¿Qué ocurriría si mañana cada tarea necesita prioridad, fecha o responsable?
 Habría que mantener un arreglo paralelo por cada atributo (prioridades[], fechas[], responsables[]), sincronizados por índice. Al eliminar o reordenar una tarea es fácil que se desalineen y se asigne un dato a la tarea equivocada. Con objetos solo se agrega una propiedad (prioridad: "alta") y el resto de las funciones no necesita enterarse.
 3. ¿Qué parte del código representa datos y qué parte representa interfaz?
@@ -49,13 +49,30 @@ El orden de las tareas se respeta: la primera aparece primero.
 
 Documenta al menos una iteración:
 
-- **RED:** ¿qué prueba escribiste y por qué falló?
-- **GREEN:** ¿cuál fue el cambio mínimo que la hizo pasar?
-- **REFACTOR:** ¿qué mejoraste sin cambiar el comportamiento?
+### Iteración documentada: Misión 6 (`cambiarEstado`)
+
+* **RED: ¿qué prueba escribiste y por qué falló?**  
+  Escribimos tres pruebas unitarias en `tests/taskService.test.js` bajo el patrón Arrange-Act-Assert: una para alternar el valor booleano de `completada` de una tarea específica, otra para asegurar que no se alteraran las demás tareas de la colección, y una tercera para verificar que un `id` inexistente devolviera la lista intacta[cite: 8, 10]. La suite falló en Vitest (`3 failed`) porque la función `cambiarEstado` aún no estaba implementada en el módulo de dominio y devolvía un error de stub pendiente[cite: 9, 10].
+
+* **GREEN: ¿cuál fue el cambio mínimo que la hizo pasar?**  
+  En `src/taskService.js`, implementamos `cambiarEstado(tareas, id)` utilizando el método inmutable `.map()` junto con un operador ternario y el operador spread (`{ ...tarea, completada: !tarea.completada }`)[cite: 10]. Esto genera y retorna una nueva colección donde solo el elemento coincidente actualiza su estado, pasando inmediatamente las 3 pruebas a verde (`passed`)[cite: 9, 10].
+
+* **REFACTOR: ¿qué mejoraste sin cambiar el comportamiento?**  
+  Se verificó la inmutabilidad estricta para evitar efectos secundarios sobre el arreglo original recibido[cite: 8, 10]. Además, se limpió la estructura sintáctica de la función flecha dentro de `.map()` para maximizar su legibilidad declarativa, asegurando que los nombres de los parámetros expresen con claridad la intención del dominio antes de integrarla con la interfaz[cite: 8, 10].
 
 ## Pair Programming
 
 Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien roles con frecuencia y no hagan commit hasta que ambos puedan explicar el código y la prueba.
 
-| Misión |	Driver	| Navigator |
-|0. Comprender antes de cambiar |	Omar	| Natalia |
+| Misión | Driver | Navigator | 
+|---|---|---|
+| 0. Comprender antes de cambiar | Omar | Natalia |
+| 1. Cambiar el modelo | Natalia | Omar | 
+| 2. crearTarea + primera prueba | Omar | Natalia |
+| 3. agregarTarea sin acoplarse al DOM | Natalia | Omar |
+| 4. buscarTarea | Omar | Natalia |
+| 5. filter: seleccionar subconjuntos | Natalia | Omar |
+| 6. cambiar estado | Omar | Natalia |
+| 7. Eliminar y probar casos frontera | Natalia | Omar |
+| 8. implementar obtenerResumen con composicion | Omar | Natalia |
+| 9. Integrar con la interfaz | Natalia | Omar |
