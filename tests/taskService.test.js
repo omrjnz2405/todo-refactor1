@@ -27,7 +27,10 @@ describe("crearTarea", () => {
     const tarea = crearTarea(id, titulo);
 
     // Assert
-    expect(tarea).toEqual({ id: 10, titulo: "Diseñar pruebas", completada: false });
+    expect(tarea).toEqual({ 
+      id: 10, 
+      titulo: "Diseñar pruebas", 
+      completada: false });
   });
 });
 
