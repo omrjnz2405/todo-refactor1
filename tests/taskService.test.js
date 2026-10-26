@@ -263,16 +263,6 @@ describe("obtenerResumen", () => {
     });
   });
 });
-// MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
-// MISIÓN 4: prueba id existente e inexistente para buscarTarea().
-// MISIÓN 5: prueba colección mixta, sin coincidencias y vacía.
-// MISIÓN 6: prueba cambio correcto, otra tarea intacta e id inexistente.
-// MISIÓN 7: prueba eliminar existente, inexistente y colección vacía.
-// MISIÓN 8: prueba obtenerResumen(), incluyendo colección vacía.
 
-// Los imports anteriores quedan preparados para que construyas la suite de forma incremental.
-void buscarTarea;
-void cambiarEstado;
-void obtenerResumen;
 
 

@@ -8,7 +8,7 @@
 
 // MISIÓN 2
 export function crearTarea(id, titulo) {
-  // TODO: devolver { id, titulo, completada: false }
+
   return { id, titulo, completada: false };
 }
 
