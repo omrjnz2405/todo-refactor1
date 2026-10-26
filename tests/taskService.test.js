@@ -187,6 +187,36 @@ describe("cambiarEstado", () => {
     expect(original.completada).toBe(false);
   });
 });
+describe("eliminarTarea", () => {
+  it("elimina la tarea con un id existente y conserva el orden", () => {
+    // Arrange
+    const tareas = [crearTarea(1, "A"), crearTarea(2, "B"), crearTarea(3, "C")];
+
+    // Act
+    const resultado = eliminarTarea(tareas, 2);
+
+    // Assert
+    expect(resultado.map(t => t.id)).toEqual([1, 3]);
+  });
+
+  it("un id inexistente no elimina nada", () => {
+    const tareas = [crearTarea(1, "A"), crearTarea(2, "B")];
+
+    expect(eliminarTarea(tareas, 99)).toEqual(tareas);
+  });
+
+  it("colección vacía devuelve un array vacío", () => {
+    expect(eliminarTarea([], 1)).toEqual([]);
+  });
+
+  it("no modifica el array original", () => {
+    const tareas = [crearTarea(1, "A")];
+
+    eliminarTarea(tareas, 1);
+
+    expect(tareas).toHaveLength(1);
+  });
+});
 // MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
 // MISIÓN 4: prueba id existente e inexistente para buscarTarea().
 // MISIÓN 5: prueba colección mixta, sin coincidencias y vacía.
@@ -197,7 +227,6 @@ describe("cambiarEstado", () => {
 // Los imports anteriores quedan preparados para que construyas la suite de forma incremental.
 void buscarTarea;
 void cambiarEstado;
-void eliminarTarea;
 void obtenerResumen;
 
 

@@ -73,3 +73,4 @@ Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien 
 | 4. buscarTarea | Omar | Natalia |
 | 5. filter: seleccionar subconjuntos | Natalia | Omar |
 | 6. cambiar estado | Omar | Natalia |
+| 7. Eliminar y probar casos frontera | Natalia | Omar |
