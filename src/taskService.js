@@ -47,6 +47,12 @@ export function eliminarTarea(tareas, id) {
 
 // MISIÓN 8
 export function obtenerResumen(tareas) {
-  // TODO: devolver { total, pendientes, terminadas }.
-  throw new Error("Misión 8 pendiente: implementar obtenerResumen()");
+  const pendientes = obtenerPendientes(tareas).length;
+  const terminadas = obtenerTerminadas(tareas).length;
+
+  return {
+    total: tareas.length,
+    pendientes,
+    terminadas
+  }
 }
