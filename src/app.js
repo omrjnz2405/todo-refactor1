@@ -1,10 +1,9 @@
 /*
- * MISIÓN 9 · ADAPTADOR DE INTERFAZ
+ * MISIÓN 1 · MODELO DE TAREA COMO OBJETO
  *
- * Este archivo contiene una versión inicial de interfaz basada en strings para
- * que la aplicación pueda observarse desde el comienzo. Cuando llegues a la
- * Misión 9, reemplaza la lógica de datos por llamadas a taskService.js.
- * El DOM debe leer eventos, delegar reglas al servicio y renderizar resultados.
+ * Una tarea deja de ser un string: ahora es un objeto con identidad (id) y
+ * estado (completada). Esto permite agregar propiedades más adelante sin
+ * arrays paralelos. La separación del DOM llega hasta la Misión 9.
  */
 
 const form = document.querySelector("#task-form");
@@ -14,16 +13,20 @@ const message = document.querySelector("#message");
 const summary = document.querySelector("#summary");
 const filters = [...document.querySelectorAll("[data-filter]")];
 
-let tareas = ["Revisar requisitos", "Diseñar pruebas", "Refactorizar código"];
+let tareas = [
+  { id: 1, titulo: "Revisar requisitos", completada: false },
+  { id: 2, titulo: "Diseñar pruebas", completada: false },
+  { id: 3, titulo: "Refactorizar código", completada: false }
+];
 let filtro = "todas";
 
 function render() {
   list.innerHTML = "";
-  tareas.forEach((titulo, index) => {
+  tareas.forEach(tarea => {
     const li = document.createElement("li");
     li.className = "task";
-    li.innerHTML = `<span class="title">${titulo}</span>
-      <span class="task-actions"><button data-delete="${index}">Eliminar</button></span>`;
+    li.innerHTML = `<span class="title">${tarea.titulo}</span>
+      <span class="task-actions"><button data-delete="${tarea.id}">Eliminar</button></span>`;
     list.appendChild(li);
   });
   summary.textContent = `Total: ${tareas.length}`;
@@ -36,16 +39,17 @@ form.addEventListener("submit", (event) => {
     message.textContent = "Escribe un título antes de agregar.";
     return;
   }
-  tareas.push(titulo); // código deliberadamente acoplado/mutable para refactorizar
+  const id = tareas.length ? Math.max(...tareas.map(t => t.id)) + 1 : 1;
+  tareas.push({ id, titulo, completada: false }); // aún mutable: se refactoriza en la Misión 9
   input.value = "";
   message.textContent = "";
   render();
 });
 
 list.addEventListener("click", (event) => {
-  const index = event.target.dataset.delete;
-  if (index === undefined) return;
-  tareas.splice(Number(index), 1); // otro punto deliberado de refactor
+  const id = event.target.dataset.delete;
+  if (id === undefined) return;
+  tareas = tareas.filter(t => t.id !== Number(id)); // ahora se elimina por id, no por posición
   render();
 });
 
