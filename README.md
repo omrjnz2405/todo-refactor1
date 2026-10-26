@@ -76,3 +76,12 @@ Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien 
 | 7. Eliminar y probar casos frontera | Natalia | Omar |
 | 8. implementar obtenerResumen con composicion | Omar | Natalia |
 | 9. Integrar con la interfaz | Natalia | Omar |
+
+
+## Reflexión final de pareja
+
+El desarrollo de esta práctica transformó por completo nuestra comprensión sobre la calidad del software. El cambio arquitectónico que aportó mayor mantenibilidad fue aislar la lógica de dominio en funciones puras dentro de `taskService.js`, desacoplándola de la manipulación directa del DOM. Evolucionar el modelo de simples cadenas hacia objetos con identidad y aplicar métodos declarativos e inmutables evitó efectos secundarios y simplificó la extensión de nuevos requisitos.
+
+Por otra parte, la prueba que nos brindó mayor confianza fue la verificación de inmutabilidad estricta en `cambiarEstado`, asegurando que no se mutara la referencia del objeto original mediante el operador spread. Esta prueba garantizó que futuras refactorizaciones no introduzcan fallos silenciosos en la colección.
+
+La dinámica de Pair Programming bajo el esquema Driver y Navigator resultó determinante para el éxito del proyecto. Mientras el Driver se concentraba en la implementación sintáctica y en hacer pasar las pruebas en verde, el Navigator cuestionaba decisiones de diseño, detectaba casos frontera y anticipaba escenarios antes de escribir el código de producción. Trabajar con Git mediante ramas por misión, resolución controlada de conflictos e integración continua demostró que construir software mantenible no consiste únicamente en hacer que funcione, sino en diseñar con estructura, pruebas automatizadas y disciplina colaborativa.
