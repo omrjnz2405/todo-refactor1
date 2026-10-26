@@ -34,7 +34,41 @@ describe("crearTarea", () => {
       completada: false });
   });
 });
+describe("agregarTarea", () => {
+  it("devuelve una colección que incluye la nueva tarea al final", () => {
+    // Arrange
+    const tareas = [crearTarea(1, "Revisar requisitos")];
+    const nueva = crearTarea(2, "Diseñar pruebas");
 
+    // Act
+    const resultado = agregarTarea(tareas, nueva);
+
+    // Assert
+    expect(resultado.at(-1)).toEqual(nueva);
+  });
+
+  it("el resultado contiene exactamente un elemento más", () => {
+    const tareas = [crearTarea(1, "A"), crearTarea(2, "B")];
+
+    const resultado = agregarTarea(tareas, crearTarea(3, "C"));
+
+    expect(resultado).toHaveLength(tareas.length + 1);
+  });
+
+  it("no modifica el array original", () => {
+    const tareas = [crearTarea(1, "A")];
+
+    agregarTarea(tareas, crearTarea(2, "B"));
+
+    expect(tareas).toHaveLength(1);
+  });
+
+  it("funciona con una colección vacía", () => {
+    const resultado = agregarTarea([], crearTarea(1, "A"));
+
+    expect(resultado).toEqual([{ id: 1, titulo: "A", completada: false }]);
+  });
+});
 
 
 // MISIÓN 3: agrega al menos dos pruebas para agregarTarea().
@@ -45,7 +79,6 @@ describe("crearTarea", () => {
 // MISIÓN 8: prueba obtenerResumen(), incluyendo colección vacía.
 
 // Los imports anteriores quedan preparados para que construyas la suite de forma incremental.
-void agregarTarea;
 void buscarTarea;
 void obtenerPendientes;
 void obtenerTerminadas;

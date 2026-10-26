@@ -62,3 +62,4 @@ Registra por misión quién fue **Driver** y quién **Navigator**. Intercambien 
 | 0. Comprender antes de cambiar | Omar | Natalia |
 | 1. Cambiar el modelo | Natalia | Omar | 
 | 2. crearTarea + primera prueba | Omar | Natalia |
+| 3. agregarTarea sin acoplarse al DOM | Natalia | Omar |
