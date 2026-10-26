@@ -9,7 +9,8 @@ import {
   eliminarTarea,
   obtenerResumen,
   filtrarTareas,
-  siguienteId
+  siguienteId,
+  buscarPorTexto
 } from "../src/taskService.js";
 
 /*
@@ -293,5 +294,39 @@ describe("Misión 10 (Refactor) - siguienteId", () => {
       { id: 3, titulo: "T3", completada: false }
     ];
     expect(siguienteId(tareas)).toBe(8);
+  });
+});
+
+// MISIÓN 11 · Extensión B: buscar por texto.
+// Decisión: la búsqueda ignora mayúsculas/minúsculas y los espacios al inicio y al final.
+describe("buscarPorTexto", () => {
+  const tareas = [
+    crearTarea(1, "Revisar requisitos"),
+    crearTarea(2, "Diseñar pruebas"),
+    crearTarea(3, "Ejecutar PRUEBAS de regresión")
+  ];
+
+  it("encuentra tareas cuyo título contiene el texto", () => {
+    // Arrange y Act
+    const resultado = buscarPorTexto(tareas, "requisitos");
+
+    // Assert
+    expect(resultado.map(t => t.id)).toEqual([1]);
+  });
+
+  it("ignora mayúsculas y minúsculas", () => {
+    expect(buscarPorTexto(tareas, "Pruebas").map(t => t.id)).toEqual([2, 3]);
+  });
+
+  it("ignora espacios al inicio y al final", () => {
+    expect(buscarPorTexto(tareas, "  revisar  ").map(t => t.id)).toEqual([1]);
+  });
+
+  it("texto vacío devuelve todas las tareas", () => {
+    expect(buscarPorTexto(tareas, "")).toEqual(tareas);
+  });
+
+  it("sin coincidencias devuelve un array vacío", () => {
+    expect(buscarPorTexto(tareas, "xyz")).toEqual([]);
   });
 });
