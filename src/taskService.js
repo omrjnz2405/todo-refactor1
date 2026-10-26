@@ -8,13 +8,12 @@
 
 // MISIÓN 2
 export function crearTarea(id, titulo) {
-  // TODO: devolver { id, titulo, completada: false }
   return { id, titulo, completada: false };
 }
 
 // MISIÓN 3
 export function agregarTarea(tareas, nuevaTarea) {
-   return [...tareas, nuevaTarea];
+  return [...tareas, nuevaTarea];
 }
 
 // MISIÓN 4
@@ -54,5 +53,23 @@ export function obtenerResumen(tareas) {
     total: tareas.length,
     pendientes,
     terminadas
+  };
+}
+
+// MISIÓN 10 (Refactor de Dominio)
+export function filtrarTareas(tareas, filtro) {
+  if (filtro === "pendientes") {
+    return obtenerPendientes(tareas);
   }
+  if (filtro === "terminadas") {
+    return obtenerTerminadas(tareas);
+  }
+  return tareas;
+}
+
+export function siguienteId(tareas) {
+  if (!tareas || tareas.length === 0) {
+    return 1;
+  }
+  return Math.max(...tareas.map(t => t.id)) + 1;
 }
